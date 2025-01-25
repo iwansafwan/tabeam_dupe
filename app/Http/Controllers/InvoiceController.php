@@ -15,14 +15,6 @@ class InvoiceController extends Controller
 
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created invoice 
      * To submit payment
      */
@@ -36,10 +28,6 @@ class InvoiceController extends Controller
             'notes' => 'nullable',
         ]);
 
-        // Round the amount to 2 decimal places
-        // $request->merge([
-        //     'amount' => round($request->amount, 2)
-        // ]);
 
         if ($request->donation_type == 'general') {
             $request->validate([
@@ -134,7 +122,7 @@ class InvoiceController extends Controller
         return redirect()->route('donator.transaction')->with('success', 'Payment submitted successfully');
     }
 
-    // view transaction list for donator
+    // view transaction list (donator)
     public function donator_transaction_list()
     {
 
@@ -148,7 +136,7 @@ class InvoiceController extends Controller
         ]);
     }
 
-    // view transaction list for treasurer
+    // view transaction list (treasurer)
     public function treasurer_transaction_list()
     {
 
@@ -165,7 +153,7 @@ class InvoiceController extends Controller
         return view('treasurer.transaction')->with('transactions', $transactions);
     }
 
-    // view transaction list for admin
+    // view transaction list (admin)
     public function admin_transaction_list()
     {
 
@@ -175,7 +163,7 @@ class InvoiceController extends Controller
         return view('admin.transaction')->with('transactions', $transactions);
     }
 
-    // view all transaction list of donator by admin
+    // view all transaction list of donator by (admin)
     public function admin_view_donator($id)
     {
 

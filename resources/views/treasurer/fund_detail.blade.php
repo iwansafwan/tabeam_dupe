@@ -134,7 +134,7 @@
                                                 </div>
                                                 <div class="col-md-8 col-12">
                                                     <div class="display_box">
-                                                        
+                                                        {{$totalCollected}}
                                                     </div>
                                                 </div>
                                             </div>

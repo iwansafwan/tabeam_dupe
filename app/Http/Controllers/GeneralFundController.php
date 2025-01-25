@@ -11,9 +11,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class GeneralFundController extends Controller
 {
 
-    /**
-     * Display detail of general fund for admin
-     */
+    // show detail general fund (admin)
     public function show()
     {
         $fund = GeneralFund::first();
@@ -28,7 +26,7 @@ class GeneralFundController extends Controller
 
     }
 
-    // show detail of general fund for guest
+    // show detail of general fund (guest)
     public function guest_general_fund_details()
     {
         $fund = GeneralFund::first();
@@ -45,7 +43,7 @@ class GeneralFundController extends Controller
         }
     }
 
-    // show detail of general fund for donator
+    // show detail of general fund (donator)
     public function fund_details($id)
     {
 
@@ -67,7 +65,7 @@ class GeneralFundController extends Controller
 
     }
 
-    // generate qr code for general fund
+    // generate qr code for general fund (dekat app.blade)
     public function check_general_qr_code()
     {
         // find available g_fund

@@ -15,17 +15,8 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class FundController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // List all fund created (treasurer)
     public function create_fund()
     {
         $treasurer = Auth::user();
@@ -44,9 +35,7 @@ class FundController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // create new fund (treasurer)
     public function store(Request $request)
     {
         $request->validate([
@@ -147,7 +136,7 @@ class FundController extends Controller
         }
     }
 
-    // View fund detail (untuk qr route)
+    // View fund detail (qr route/donator)
     public function fund_details($id)
     {
         $fund = Fund::with('ratio')->findOrFail($id);
@@ -174,7 +163,7 @@ class FundController extends Controller
         }
     }
 
-    // view fund detail (for guest)
+    // view fund detail (guest)
     public function guest_fund_details($id)
     {
         $fund = Fund::with('ratio')->findOrFail($id);
@@ -202,13 +191,16 @@ class FundController extends Controller
         }
     }
 
-    // show specific section of fund detail
+    // view fund detail (treasurer)
     public function show($id)
     {
         // find fund id that have relation with ratio 
         $fund = Fund::with('ratio')->find($id);
         if ($fund) {
-            return view('treasurer.fund_detail')->with('fund', $fund);
+
+            $totalCollected = Invoice::where('fund_id', $id)->sum('amount');
+
+            return view('treasurer.fund_detail')->with('fund', $fund)->with('totalCollected', $totalCollected);
         } else {
 
             return redirect()->back()->with('error', 'Fund not found.');
@@ -216,7 +208,29 @@ class FundController extends Controller
         }
     }
 
-    // edit page
+    // view fund detail (admin)
+    public function admin_show($id)
+    {
+        // retrieve specific fund with treasurer and ratio id
+        $fund = Fund::with('ratio')->with('treasurer')->find($id);
+
+        if ($fund) {
+
+            $totalCollected = Invoice::where('fund_id', $id)->sum('amount');
+
+            return view('admin.fund_detail', [
+                'fund' => $fund,
+                'totalCollected'=> $totalCollected,
+            ]);
+
+        } else {
+
+            return redirect()->back()->with('error', 'Fund not found.');
+
+        }
+    }
+
+    // edit fund (treasurer)
     public function edit($id)
     {
         $fund = Fund::with('ratio')->find($id);
@@ -233,7 +247,7 @@ class FundController extends Controller
 
     }
 
-    // update fund
+    // update fund (treasurer)
     public function update(Request $request)
     {
 
@@ -321,7 +335,7 @@ class FundController extends Controller
         return redirect()->route('treasurer.create_fund')->with('success', 'Fund successfully updated.');
     }
 
-    // View list of fund for admin
+    // View list of fund (admin)
     public function admin_fund()
     {
 
@@ -336,24 +350,8 @@ class FundController extends Controller
         ]);
     }
 
-    // view specific section for admin
-    public function admin_show($id)
-    {
-        // retrieve specific fund with treasurer and ratio id
-        $fund = Fund::with('ratio')->with('treasurer')->find($id);
 
-        if ($fund) {
-
-            return view('admin.fund_detail', ['fund' => $fund]);
-
-        } else {
-
-            return redirect()->back()->with('error', 'Fund not found.');
-
-        }
-    }
-
-    // view specific treasurer detail for admin
+    // view specific treasurer detail (admin)
     public function admin_view_treasurer($id)
     {
 
@@ -377,14 +375,14 @@ class FundController extends Controller
 
     }
 
-    // donator scan qr
+    // donator scan qr (donator)
     public function donator_scan_qr()
     {
         return view('donator.scan_qr');
     }
 
 
-    // donate to general fund
+    // donate to general fund (donator)
     public function donator_donate_general($fund)
     {
         // check current user
@@ -398,7 +396,7 @@ class FundController extends Controller
         ]);
     }
 
-    // donate to main fund
+    // donate to main fund (donator)
     public function donator_donate_main($fund)
     {
         // check current user
@@ -412,7 +410,7 @@ class FundController extends Controller
         ]);
     }
 
-    // donate to specific section
+    // donate to specific section (donator)
     public function donator_donate_section($fund, $section)
     {
         // check current user
@@ -429,7 +427,7 @@ class FundController extends Controller
         ]);
     }
 
-    // terminate fund and direct money to general fund
+    // terminate fund and direct money to general fund (treasurer)
     public function treasurer_terminate_fund(Request $request)
     {
         // validate req for treasurer id and fund id
@@ -527,7 +525,7 @@ class FundController extends Controller
 
     }
 
-    // search active fund for donator
+    // search active fund for (donator)
     public function donator_search_fund(Request $request)
     {
 
@@ -574,6 +572,7 @@ class FundController extends Controller
         ]);
     }
 
+    // search active fund for (treasurer)
     public function treasurer_search_fund(Request $request)
     {
 
