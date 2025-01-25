@@ -176,7 +176,7 @@
                                     @if (isset($funds) && count($funds) > 0)
                                         <div class="row mt-3">
                                             <div class="col-md-12 col-12">
-                                                {{-- {{ $funds->links() }} --}}
+                                                {{ $funds->links() }}
                                             </div>
                                         </div>
                                     @endif

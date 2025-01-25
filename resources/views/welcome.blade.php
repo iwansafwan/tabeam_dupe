@@ -83,7 +83,20 @@
                 <div class="col-md-5 col-6 d-flex align-items-center justify-content-end">
                     @if (Route::has('login'))
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="menu_btn shadow">
+                        
+                        @php
+                        // Determine the route based on the user's role
+                         $dashboardRoute = route('dashboard'); // Default route
+                         if (auth()->user()->roles->contains('name', 'admin')) {
+                            $dashboardRoute = route('admin.dashboard');
+                    } elseif (auth()->user()->roles->contains('name', 'treasurer')) {
+                            $dashboardRoute = route('treasurer.dashboard');
+                    } elseif (auth()->user()->roles->contains('name', 'donator')) {
+                            $dashboardRoute = route('donator.dashboard');
+                    }
+                        @endphp
+
+                            <a href="{{ $dashboardRoute }}" class="menu_btn shadow">
                                 Dashboard
                             </a>
                         @else

@@ -14,13 +14,7 @@ use Illuminate\Validation\Rules;
 
 class HomeController extends Controller
 {
-    // test navbar
-    // public function testNavbar()
-    // {
-    //     return view('admin.testnavbar');
-    // }
-
-    // landing page
+    // landing page (guest)
     public function landing_page()
     {
         // retrive g_fund
@@ -35,7 +29,7 @@ class HomeController extends Controller
         ]);
     }
 
-    // view admin dashboard
+    // view admin dashboard (admin)
     public function admin_dashboard()
     {
         // Count users with 'donator' role
@@ -58,7 +52,7 @@ class HomeController extends Controller
 
     }
 
-    // view treasurer dashboard
+    // view treasurer dashboard (treasurer)
     public function treasurer_dashboard()
     {
 
@@ -74,7 +68,7 @@ class HomeController extends Controller
         return view('treasurer.dashboard', compact('fundCount', 'overallCollected'));
     }
 
-    // view donator dashboard
+    // view donator dashboard (donator)
     public function donator_dashboard()
     {
 
@@ -93,7 +87,7 @@ class HomeController extends Controller
 
     }
 
-    //show list of user either donator or treasurer 
+    //show list of user either donator or treasurer (admin)
     public function admin_users()
     {
 
@@ -105,7 +99,7 @@ class HomeController extends Controller
             ->with('donators', $donators);
 
     }
-    // store admin create treasurer
+    // create treasurer (admin)
     public function admin_create_treasurer(Request $request)
     {
         $request->validate([

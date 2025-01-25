@@ -8,7 +8,7 @@
         }
 
         .count_number{
-            font-size:30pt !important;
+            font-size:20pt !important;
             font-weight:bold !important;
         }
 

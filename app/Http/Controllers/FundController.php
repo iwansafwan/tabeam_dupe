@@ -562,7 +562,7 @@ class FundController extends Controller
                     }
                 });
             })
-            ->get();
+            ->paginate(10);
 
         return view('donator.dashboard', [
             'funds' => $funds,
@@ -602,7 +602,7 @@ class FundController extends Controller
                         }
                     });
                 })
-                ->get();
+                ->paginate(10);
 
             return view('treasurer.create_fund')->with('funds', $funds)
                 ->with('treasurer', $treasurer);
