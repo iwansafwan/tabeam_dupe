@@ -116,7 +116,7 @@
                                                     @if(isset($fund->ratio) && count($fund->ratio) > 0)
                                                         @foreach($fund->ratio as $ratio)
                                                             <div class="display_box my-2">
-                                                                {{ $ratio->category_name }} - {{ $ratio->percentage }}%
+                                                                {{ $ratio->category_name }} - {{ $ratio->percentage }}%  Collected = RM {{ number_format($ratio->total_collected, 2) }}
                                                             </div>
                                                         @endforeach
                                                     @else
